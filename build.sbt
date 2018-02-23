@@ -6,7 +6,7 @@ scalaVersion := "2.12.4"
 val circeV = "0.9.0"
 
 libraryDependencies ++= Seq(
-  "org.apache.kafka"  %% "kafka"                % "0.11.0.1",//"1.0.0",//
+  "org.apache.kafka"  %% "kafka"                % "1.0.0",
   "com.typesafe.akka" %% "akka-actor"           % "2.5.9",
   "com.typesafe.akka" %% "akka-stream-kafka"    % "0.18",
   "io.circe" %% "circe-core" % circeV,

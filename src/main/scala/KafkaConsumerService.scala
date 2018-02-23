@@ -1,7 +1,7 @@
 
 import java.sql.Timestamp
 import java.util
-import java.util.Calendar
+import java.util.{Calendar, Properties}
 import javax.management.{Attribute, InstanceNotFoundException, MBeanServerConnection, ObjectName}
 import javax.management.remote.{JMXConnectorFactory, JMXServiceURL}
 
@@ -12,13 +12,15 @@ import kafka.metrics.{KafkaMetricsConfig, KafkaMetricsGroup, KafkaMetricsReporte
 
 import scala.io.Source
 import io.circe._
+import io.circe.syntax._
 import io.circe.parser.parse
 import kafka.tools.JmxTool
 import kafka.utils.ZkUtils
 import org.I0Itec.zkclient.ZkConnection
+import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 import org.apache.kafka.common.metrics._
 import org.apache.zookeeper.ZooKeeper
-
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 
 
 case class GroupInfo(state: String, partitionAssignmentStates: Seq[PartitionAssignmentState] = Seq())
@@ -242,7 +244,7 @@ object KafkaConsumerService extends App {
     println(s"other topics ${otherTopics}")
 
     for ((idTopic, topic) <- allTopicsBroker) {
-//      val topic = "topic-1"
+      //      val topic = "topic-1"
       val metricName = "MessagesInPerSec"
 
       val objectName = new ObjectName(s"kafka.server:type=BrokerTopicMetrics,name=$metricName,topic=$topic")
@@ -266,8 +268,19 @@ object KafkaConsumerService extends App {
         s"- oneMinuteRate : ${meterMetricMsgInPerSec.oneMinuteRate} \n")
       //      s"- oneMinuteRate : ${logEndOffsetList("current") - logEndOffsetList("old")} \n")
 
-    }
 
+      implicit val metricsTopicEncoder: Encoder[MeterMetric] = deriveEncoder
+
+      val value = meterMetricMsgInPerSec.asJson.noSpaces
+      val record: ProducerRecord[String, String] = new ProducerRecord("topic-3", value)
+
+      val properties = GeneratorApp.getProperties()
+
+      val producer: KafkaProducer[String, String] = new KafkaProducer(properties)
+      producer.send(record)
+      println(record)
+
+    }
     Thread.sleep(1000)
   }
 }

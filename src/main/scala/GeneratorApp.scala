@@ -1,3 +1,4 @@
+
 import java.util.{Calendar, Properties}
 
 import akka.actor.ActorSystem
@@ -9,10 +10,14 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 object GeneratorApp extends App {
 
-  val properties = new Properties()
-  properties.put("bootstrap.servers", "localhost:9092")
-  properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
-  properties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer")
+  def getProperties(): Properties = {
+    val properties: Properties = new Properties()
+    properties.put("bootstrap.servers", "localhost:9092")
+    properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
+    properties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer")
+    properties
+  }
+  val properties = getProperties()
 
   val props = properties // .setProperty("num.partitions", "2")
   val props1 = properties
