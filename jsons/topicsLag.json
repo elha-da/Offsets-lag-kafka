@@ -1,0 +1,14 @@
+{"topics-lag-limit-list" : [
+  {
+    "topic" : "string-topic-1",
+    "lagLimit" : 10 
+  },
+  {
+    "topic" : "avro-topic-1",
+    "lagLimit" : 50
+  },
+  {
+    "topic" : "json-topic-2",
+    "lagLimit" : 80
+  }
+]}
