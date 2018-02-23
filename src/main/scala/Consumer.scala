@@ -31,7 +31,7 @@ object Consumer extends App {
   val consumer2 = new KafkaConsumer[String, String](pr2)
 
 
-  def consuming(consumer: KafkaConsumer[String, String], topic: String, partition: Int) {
+  def consuming(consumer: KafkaConsumer[String, String], topic: String, partition: Int =0) {
   //  consumer.subscribe(util.Arrays.asList(topic))
 
     val partition0: TopicPartition = new TopicPartition(topic, partition)
@@ -63,10 +63,10 @@ object Consumer extends App {
   }
 
   while (true) {
-    consuming(consumer1, "topic-2", 0)
+//    consuming(consumer1, "topic-2", 0)
 //    consuming(consumer1, "topic-2", 1)
-//    consuming(consumer1, "topic-1")
-//    consuming(consumer2, "topic-2")
+    consuming(consumer1, "topic-1")
+    consuming(consumer2, "topic-3")
     Thread.sleep(10000)
   }
 //  consuming(consumer, "topic-1")
