@@ -32,7 +32,7 @@ object ZooKeeperBroker extends App {
       println()
   }
 
-  //  val zk: ZooKeeper = new ZooKeeper("10.19.22.236:2181", 10000, null)
+  //  val zk: ZooKeeper = new ZooKeeper("0.0.0.0:2181", 10000, null)
   //  val ids: List[String] = zk.getChildren("/brokers/ids", false).asScala.toList
 
   //  ids.foreach { id =>
