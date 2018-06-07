@@ -281,6 +281,6 @@ object KafkaConsumerService extends App {
       println(record)
 
     }
-    Thread.sleep(1000)
+    Thread.sleep(5000)
   }
 }
